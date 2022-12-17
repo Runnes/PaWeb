@@ -44,7 +44,7 @@
     <div id="myModal" class="modal">
 
   <div class="modal-content">
-    <p id="actor_details">Some text in the Modal..</p>
+    <p id="actor_details" >Power</p>
   </div>
 
 </div>
@@ -67,6 +67,8 @@
                 {% for actor in actors %}
                     <li>
                     <p onclick="document.getElementById('myModal').style.display='block';document.getElementById('actor_details').innerHTML='{{actor['name']}}'">{{actor['name']}}" </p>
+
+
                     </li>
                 {% endfor %}
             </ul>

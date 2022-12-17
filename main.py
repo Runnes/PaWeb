@@ -87,11 +87,16 @@ def get_house_characters():
 @app.route('/top20a')
 def get_top20a():
     actors = queries.get_top20_a()
+
     return render_template('top20a.html',actors=actors)
 
 @app.route('/api/actor/<int:actor_id>', methods=["GET", "POST"])
 def get_data_for_dates(actor_id):
     return jsonify(queries.get_actor_details(actor_id))
+
+@app.route('/api/actor/', methods=["GET", "POST"])
+def get_data_for_actor(actor):
+    return jsonify(queries.get_movies_of_actor(actor))
 
 
 if __name__ == '__main__':

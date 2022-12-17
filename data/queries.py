@@ -79,24 +79,16 @@ def get_show_seasons(id):
     """, {"id": id})
 
 
-def get_house_characters():
-    return data_manager.execute_select('''SELECT sch.id,  sch.character_name, sch.actor_id
-    FROM shows s
-    JOIN show_characters sch ON s.id = sch.show_id
-    WHERE s.title = 'House' ''')
 
-
-def get_actor_details(actor_id):
-    return data_manager.execute_select('''SELECT name
-      ,birthday
-      ,death
-      ,biography
-  FROM actors
-  WHERE id =  %(id)s ''', {'id': actor_id})
 
 
 def get_top20_a():
     return data_manager.execute_select('''Select name from actors ORDER BY name LIMIT 20''')
 
-def get_movies_of_actor(actor):
-    return data_manager.execute_select('''Select id, name from actors''')
+def get_actor_id(actor):
+    return data_manager.execute_select('''Select id from actors where name=%(name)s''',{"name":actor})
+
+def get_movies_of_actor(name):
+    return data_manager.execute_select('''SELECT shows.title
+FROM actors,show_characters,shows
+where actors.name =%(name)s and actors.id=show_characters.actor_id and shows.id=show_characters.show_id''',{"name":name})

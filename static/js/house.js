@@ -1,10 +1,10 @@
 function buildResult(data){
     let details = document.getElementById('actor-details')
-    details.innerHTML = ` <p>${data["name"]}</p>  <p>${data["birthday"]}</p>`;
+    details.innerHTML = ` <p>${data["name"]}</p> `;
 }
 
 function getActorInfo(){
-    let characterDetails = document.getElementsByClassName("character_name")
+    let characterDetails = document.getElementById('actor-details')
 
     for (let i = 0; i< characterDetails.length; i++){
         characterDetails[i].addEventListener('click', ()=> {
