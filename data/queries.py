@@ -93,3 +93,7 @@ def get_actor_details(actor_id):
       ,biography
   FROM actors
   WHERE id =  %(id)s ''', {'id': actor_id})
+
+
+def get_top20_a():
+    return data_manager.execute_select('''Select name from actors ORDER BY name LIMIT 20''')
