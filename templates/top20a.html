@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="static/style/modal.css">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -31,9 +32,22 @@
     <!-- page specific styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/detailed-view.css') }}">
+    <script>window.onclick = function(event) {
+  if (event.target == document.getElementById('myModal')) {
+    document.getElementById('myModal').style.display = "none";
+  }
+}</script>
 </head>
 
+
 <div id="body-wrapper">
+    <div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <p id="actor_details">Some text in the Modal..</p>
+  </div>
+
+</div>
     <header class="clearfix">
         <a href="/"><img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}"
                 alt="Codecool Logo"></a>
@@ -52,7 +66,7 @@
             <ul>
                 {% for actor in actors %}
                     <li>
-                    <p>{{actor['name']}} </p>
+                    <p onclick="document.getElementById('myModal').style.display='block';document.getElementById('actor_details').innerHTML='{{actor['name']}}'">{{actor['name']}}" </p>
                     </li>
                 {% endfor %}
             </ul>

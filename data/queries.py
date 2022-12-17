@@ -97,3 +97,6 @@ def get_actor_details(actor_id):
 
 def get_top20_a():
     return data_manager.execute_select('''Select name from actors ORDER BY name LIMIT 20''')
+
+def get_movies_of_actor(actor):
+    return data_manager.execute_select('''Select id, name from actors''')
