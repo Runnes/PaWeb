@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for,jsonify
+from flask import Flask, render_template, url_for,jsonify,request
 from data import queries
 import math
 from dotenv import load_dotenv
@@ -87,8 +87,13 @@ def get_house_characters():
 @app.route('/top20a')
 def get_top20a():
     actors = queries.get_top20_a()
-
-    return render_template('top20a.html',actors=actors)
+    # for i in range(20):
+    #     movies_of_actor =queries.get_movies_of_actor(actors[i])
+    shows=[]
+    for i in range (20):
+        shows.append(queries.get_movies_of_actorv2(actors[i]['name']))
+    #return shows
+    return render_template('top20a.html',actors=actors,shows=shows)
 
 @app.route('/api/actor/<int:actor_id>', methods=["GET", "POST"])
 def get_data_for_dates(actor_id):
@@ -99,8 +104,26 @@ def get_data_for_actor(actor):
     return jsonify(queries.get_movies_of_actor(actor))
 
 
+@app.route('/filter-actors',methods=["GET","POST"])
+def filter_actors():
+    genres=queries.get_genres()
+    results=['1','2']
+    if request.method == 'POST':
+
+        form = request.form['genre']
+        results = queries.get_actors_from_genres(form)
+
+
+    return render_template('filter-actors.html',genres=genres,results=results)
+
+
+
 if __name__ == '__main__':
     main()
+#
+# shows = get_top20a()
+# for show in shows:
+#     print(show[0]['name'])
 
-
-
+# print(queries.get_movies_of_actor("Lucy Liu"))
+#print(queries.get_movies_of_actorv2(27))

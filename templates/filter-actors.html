@@ -54,44 +54,40 @@
         <a href="/" id="header-title" class="title">
             Codecool Series Database
         </a>
-        <div id="header-auth">
+          <div id="header-auth">
             <button type="button" id="bt_register">Register</button>
             <button type="button" id="bt_login">Login</button>
         </div>
     </header>
         <section>
-        <h1 class="title text-center">Top 20 actors</h1>
-
-        <div class="card">
-            <ul>
-                {% for actor in actors %}
-                    <li>
 
 
-                        {%for show in shows%}
-                        {%if actor['name'] == show[0]['name']%}
-
-<!--                        <script>console.log("{{actor['name']}}" )</script>-->
-<!--                        <p>{{show[0]['name']}}</p>-->
+<form method="post" action="/filter-actors">
+        <select type="text" id ="genre" name="genre">
+        <label for="genre">Genre</label>
+        </select>
 
 
 
+            {% for genre in genres%}
 
-                    <p onclick="document.getElementById('myModal').style.display='block';document.getElementById('actor_details').innerHTML+='{{show[0]['title']}}, '"> {{actor['name']}}</p>
-                        <script>console.log("{{show[0]['name']}}" )</script>
-                        {%endif%}
+           <script>var x = document.getElementById("genre");
+                var option = document.createElement("option");
+                option.text = "{{genre['name']}}";
+                x.add(option);
 
-                        {%endfor%}
-<!--                        <p>{{actor['name']}}</p>-->
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
+            </script>
 
+            {%endfor%}
 
-
-    <section>
+                    <input type = "submit" id ="submit">
+        <label for="submit">Submit</label>
+</form>
+            {% for result in results%}
+            <p>{{result['name']}}</p>
+            {%endfor%}
+        </section>
+            <section>
         {% block content %}
         {% endblock %}
     </section>

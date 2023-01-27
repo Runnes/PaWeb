@@ -83,12 +83,35 @@ def get_show_seasons(id):
 
 
 def get_top20_a():
-    return data_manager.execute_select('''Select name from actors ORDER BY name LIMIT 20''')
+    return data_manager.execute_select('''Select name,birthday from actors ORDER BY name LIMIT 20''')
 
 def get_actor_id(actor):
     return data_manager.execute_select('''Select id from actors where name=%(name)s''',{"name":actor})
 
-def get_movies_of_actor(name):
+def get_movies_of_actor(id):
     return data_manager.execute_select('''SELECT shows.title
 FROM actors,show_characters,shows
 where actors.name =%(name)s and actors.id=show_characters.actor_id and shows.id=show_characters.show_id''',{"name":name})
+
+def get_movies_of_actorv2(name):
+    return data_manager.execute_select('''SELECT shows.title, actors.name
+FROM shows,actors,show_characters
+where actors.name =%(name)s
+And actors.id=show_characters.actor_id
+and show_characters.show_id=shows.id''',{"name":name})
+
+def get_genres():
+    return data_manager.execute_select('''Select name from genres''')
+
+
+def get_actors_from_genres(name,actor_name):
+    return data_manager.execute_select('''select actors.name
+FROM genres,show_genres,shows,show_characters,actors
+where genres.name=%(name)s
+and genres.id=show_genres.genre_id
+and shows.id=show_genres.show_id
+and shows.id=show_characters.show_id
+and actors.id =show_characters.actor_id
+and actors.name LIKE %%(actor_name)s%
+LIMIT 20
+ ''',{"name":name,"actor_name":actor_name})
