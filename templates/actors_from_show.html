@@ -32,24 +32,23 @@
     <!-- page specific styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/detailed-view.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function(){
-        $('form').on('submit',function(event){
-        $.ajax({data : {
-        genre: $("#genre").val()},
-        url:'/filter-actors'}).done(function(data) {
-$("testkarol").text(data.genre)
-        })})})
-
-
-
-    </script>
     <script>window.onclick = function(event) {
   if (event.target == document.getElementById('myModal')) {
     document.getElementById('myModal').style.display = "none";
   }
 }</script>
+    <script>
+        function short_main() {
+        document.querySelectorAll('p').forEach(e =>
+
+
+           // e.innerHTML=e.innerHTML.split(" ")[1] + e.innerHTML.split(" ")[2]
+            e.innerHTML=e.innerHTML.slice(1,2) + "." e.innerHTML.split(" ")[2]
+
+
+        )
+        }
+    </script>
 </head>
 
 
@@ -67,41 +66,30 @@ $("testkarol").text(data.genre)
         <a href="/" id="header-title" class="title">
             Codecool Series Database
         </a>
-          <div id="header-auth">
+        <div id="header-auth">
             <button type="button" id="bt_register">Register</button>
             <button type="button" id="bt_login">Login</button>
         </div>
     </header>
         <section>
+        <h1 class="title text-center">Actors from Show : "{{actors[0]['title']}}"</h1>
+        <button id = "short" onclick="short_main()">Click me</button>
+        <div class="card">
+
+                 <ul>
+                {% for actor in actors %}
+                    <li>
+                    <p> {{actor['name']}}</p>
+
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
 
 
-<form method="post" action="/filter-actors">
-        <select type="text" id ="genre" name="genre">
-        <label for="genre">Genre</label>
-        </select>
 
-
-
-            {% for genre in genres%}
-
-           <script>var x = document.getElementById("genre");
-                var option = document.createElement("option");
-                option.text = "{{genre['name']}}";
-                x.add(option);
-
-            </script>
-
-            {%endfor%}
-            <input type="text" id="characters">
-                    <input type = "submit" id ="submit">
-        <label for="submit">Submit</label>
-</form>
-            {% for result in results%}
-            <p>{{result['name']}}</p>
-            {%endfor%}
-            <div id="testkarol">test</div>
-        </section>
-            <section>
+    <section>
         {% block content %}
         {% endblock %}
     </section>

@@ -108,22 +108,50 @@ def get_data_for_actor(actor):
 def filter_actors():
     genres=queries.get_genres()
     results=['1','2']
+    actor_name="s"
+
     if request.method == 'POST':
 
-        form = request.form['genre']
-        results = queries.get_actors_from_genres(form)
+        genre = request.form['genre']
+        actor_name = request.form['characters']
+        results = queries.get_actors_from_genres(genre,actor_name)
 
 
     return render_template('filter-actors.html',genres=genres,results=results)
 
 
 
+@app.route('/filteractors2',methods=['GET','POST'])
+def filteractors2():
+    genre = request.form['genre']
+    results = ['1', '2']
+    actor_name = request.form['characters']
+    print(actor_name)
+    if request.method == 'POST':
+
+
+        results = queries.get_actors_from_genres(genre,actor_name)
+    print(jsonify({'result':results}))
+    return jsonify({'result':results})
+
+
+@app.route('/shows/<show_id>/actors')
+def get_actors_of_show(show_id):
+    # show_id  = queries.get_show(id)
+    actors =queries.get_show_actors(show_id)
+
+    # return actors
+    return render_template('actors_from_show.html',actors=actors)
+
+
+
 if __name__ == '__main__':
     main()
-#
+
 # shows = get_top20a()
 # for show in shows:
 #     print(show[0]['name'])
 
 # print(queries.get_movies_of_actor("Lucy Liu"))
 #print(queries.get_movies_of_actorv2(27))
+# print(get_actors_of_show(1390)[0]['title'])

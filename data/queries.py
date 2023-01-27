@@ -113,5 +113,15 @@ and shows.id=show_genres.show_id
 and shows.id=show_characters.show_id
 and actors.id =show_characters.actor_id
 and actors.name LIKE %%(actor_name)s%
-LIMIT 20
+LIMIT 1
  ''',{"name":name,"actor_name":actor_name})
+
+def get_show_actors(id):
+    return data_manager.execute_select("""
+        SELECT  actors.name,shows.title
+        FROM actors,show_characters,shows
+        WHERE show_id = %(id)s
+        AND actors.id = show_characters.actor_id
+        AND shows.id=show_characters.show_id
+        ORDER BY actors.name
+    """, {"id": id})
